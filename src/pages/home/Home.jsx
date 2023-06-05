@@ -22,10 +22,10 @@ const Home = () => {
    };
   return (
     <div className="home">
-      {/* <div> */}
+     
       <button onClick={() => setShow("add")}>Add New Employee</button>
       {show === "add" && <Popup setShow={setShow} show={show} />}
-      {/* </div> */}
+      
       <Table setShow={setShow} show={show} data={employees} />
     </div>
   );

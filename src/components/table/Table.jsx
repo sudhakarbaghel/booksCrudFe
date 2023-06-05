@@ -44,7 +44,45 @@ const Table = ({ data, setShow, show }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((row, index) => (
+          {data.length > 0 ? (
+            data.map((row,index) => (
+              <tr key={index}>
+                <td>{row.name}</td>
+                <td className="tableEmail" style={{ overflowX: "scroll" }}>
+                  {row.email}
+                </td>
+                <td>{row.number}</td>
+                <td>{row.nic}</td>
+                <td>{row.address}</td>
+                <td className="tableButtonWrapper">
+                  <button
+                    className="TableView"
+                    onClick={() => handleViewClick(row)}
+                  >
+                    View
+                  </button>
+                  <button
+                    className="TableEdit"
+                    onClick={() => handleEditClick(row)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="TableDelete"
+                    onClick={() => handleDeleteClick(row)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6">Loading...</td>
+            </tr>
+          )}
+
+          {/* {data.map((row, index) => (
             <tr key={index}>
               <td>{row.name}</td>
               <td className="tableEmail" style={{ overflowX: "scroll" }}>
@@ -74,7 +112,7 @@ const Table = ({ data, setShow, show }) => {
                 </button>
               </td>
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </table>
     </>
