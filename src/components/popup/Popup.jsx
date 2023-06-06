@@ -39,9 +39,17 @@ export default function Popup({ setShow, show, rowData }) {
     };
     try {
       if (show === "edit") {
-        await callApi("PUT", `/employees/${rowData._id}`, employee);
+        await callApi(
+          "PUT",
+          `https://employee-manager-backend-vrfr.vercel.app/api/employees/${rowData._id}`,
+          employee
+        );
       } else if (show === "add") {
-        await callApi("POST", "/employees", employee);
+        await callApi(
+          "POST",
+          "https://employee-manager-backend-vrfr.vercel.app/api/employees",
+          employee
+        );
       }
       setShow(false);
       window.location.reload(false);

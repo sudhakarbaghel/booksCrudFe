@@ -18,7 +18,9 @@ const Table = ({ data, setShow, show }) => {
   };
   const handleDeleteClick = async (row) => {
     try {
-      await axios.delete(`/employees/${row._id}`);
+      await axios.delete(
+        `https://employee-manager-backend-vrfr.vercel.app/api/employees/${row._id}`
+      );
       window.location.reload(false);
     } catch (error) {
       console.log(error);
@@ -33,7 +35,7 @@ const Table = ({ data, setShow, show }) => {
       {show === "edit" && (
         <Popup setShow={setShow} show={show} rowData={selectedRow} />
       )}
-      {/* <table className="table">
+      <table className="table">
         <thead>
           <tr>
             <th>Name</th>
@@ -78,7 +80,7 @@ const Table = ({ data, setShow, show }) => {
             </tr>
           ))}
         </tbody>
-      </table> */}
+      </table>
     </>
   );
 };
