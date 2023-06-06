@@ -22,10 +22,8 @@ const Home = () => {
    };
   return (
     <div className="home">
-     
       <button onClick={() => setShow("add")}>Add New Employee</button>
       {show === "add" && <Popup setShow={setShow} show={show} />}
-      
       <Table setShow={setShow} show={show} data={employees} />
     </div>
   );
