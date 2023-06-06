@@ -14,3 +14,9 @@
   background-color: #0c79f6;
   margin-bottom: 30px;
 }
+@media (max-width: 768px) {
+  
+  .home{
+    margin: 0px 15px;
+  }
+}

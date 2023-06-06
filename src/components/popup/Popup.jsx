@@ -4,7 +4,7 @@ import "./popup.css";
 
 export default function Popup({ setShow, show, rowData }) {
   const { name, email, number, nic, address } = rowData || {};
-
+  const [loading, setLoading] = useState(false);
   const [employeeData, setEmployeeData] = useState({
     name: name || "",
     email: email || "",
@@ -29,6 +29,7 @@ export default function Popup({ setShow, show, rowData }) {
   };
 
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     const employee = {
       name: employeeData.name,
@@ -51,9 +52,11 @@ export default function Popup({ setShow, show, rowData }) {
           employee
         );
       }
+      setLoading(false);
       setShow(false);
       window.location.reload(false);
     } catch (error) {
+      setLoading(false);
       console.error("Submit Error:", error);
     }
   };
@@ -202,13 +205,60 @@ export default function Popup({ setShow, show, rowData }) {
             <button
               type="submit"
               style={{ backgroundColor: "#feca11", color: "black" }}
+              disabled={loading}
             >
-              Edit Employee
+              {!loading ? (
+                "Edit Employee"
+              ) : (
+                <div>
+                  <svg
+                    className="spinner"
+                    width="13"
+                    height="14"
+                    viewBox="0 0 13 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4.38798 12.616C3.36313 12.2306 2.46328 11.5721 1.78592 10.7118C1.10856 9.85153 0.679515 8.82231 0.545268 7.73564C0.411022 6.64897 0.576691 5.54628 1.02433 4.54704C1.47197 3.54779 2.1845 2.69009 3.08475 2.06684C3.98499 1.4436 5.03862 1.07858 6.13148 1.01133C7.22435 0.944078 8.31478 1.17716 9.28464 1.68533C10.2545 2.19349 11.0668 2.95736 11.6336 3.89419C12.2004 4.83101 12.5 5.90507 12.5 7"
+                      stroke="white"
+                    />
+                  </svg>{" "}
+                  Saving changes
+                </div>
+              )}
             </button>
           )}
           {show === "add" && (
-            <button type="submit" style={{ backgroundColor: "#459162" }}>
-              Add Employee
+            <button
+              type="submit"
+              disabled={loading}
+              style={
+                loading
+                  ? { backgroundColor: "#83b998" } // Lighter color when loading is true
+                  : { backgroundColor: "#459162" } // Default color when loading is false
+              }
+            >
+              {!loading ? (
+                "Add Employee"
+              ) : (
+                <div>
+                  <svg
+                    className="spinner"
+                    width="13"
+                    height="14"
+                    viewBox="0 0 13 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4.38798 12.616C3.36313 12.2306 2.46328 11.5721 1.78592 10.7118C1.10856 9.85153 0.679515 8.82231 0.545268 7.73564C0.411022 6.64897 0.576691 5.54628 1.02433 4.54704C1.47197 3.54779 2.1845 2.69009 3.08475 2.06684C3.98499 1.4436 5.03862 1.07858 6.13148 1.01133C7.22435 0.944078 8.31478 1.17716 9.28464 1.68533C10.2545 2.19349 11.0668 2.95736 11.6336 3.89419C12.2004 4.83101 12.5 5.90507 12.5 7"
+                      stroke="white"
+                    />
+                  </svg>{" "}
+                  Adding
+                </div>
+              )}
             </button>
           )}
         </form>
@@ -219,5 +269,3 @@ export default function Popup({ setShow, show, rowData }) {
     </div>
   );
 }
-
- 

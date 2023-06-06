@@ -69,6 +69,9 @@
   border: none;
   border-radius: 5px;
 }
+.popupContainer button :disabled{
+  cursor: not-allowed !important;
+}
 .popupBottom {
   display: flex;
   flex-direction: column;
@@ -76,6 +79,7 @@
 .popupBottom button {
   align-self: flex-end;
   background-color: #7d7f80;
+  /* color: #83b998; */
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -88,4 +92,19 @@
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+.spinner {
+  animation-name: spin;
+  animation-duration: 500ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
