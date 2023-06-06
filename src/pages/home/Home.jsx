@@ -13,7 +13,9 @@ const Home = () => {
 
    const fetchEmployees = async () => {
      try {
-       const response = await axios.get("/employees");
+       const response = await axios.get(
+         "https://employee-manager-backend-vrfr.vercel.app/api/employees"
+       );
        setEmployees(response.data);
         
      } catch (error) {
