@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import "./popup.css";
 
-export default function Popup({ setShow, show, rowData }) {
+export default function Popup({ setShow, show, rowData, fetchEmployees }) {
   const { name, email, number, nic, address } = rowData || {};
   const [loading, setLoading] = useState(false);
   const [employeeData, setEmployeeData] = useState({
@@ -54,7 +54,7 @@ export default function Popup({ setShow, show, rowData }) {
       }
       setLoading(false);
       setShow(false);
-      window.location.reload(false);
+    fetchEmployees();
     } catch (error) {
       setLoading(false);
       console.error("Submit Error:", error);
@@ -155,7 +155,8 @@ export default function Popup({ setShow, show, rowData }) {
           <div className="popupInputWrap">
             {show === "edit" && <label htmlFor="">Number</label>}
             <input
-              type="number"
+              type="tel"
+              pattern="[0-9]{10}"
               className="popupInputNumber"
               required
               placeholder="Enter number"

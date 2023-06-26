@@ -4,7 +4,7 @@ import "./table.css";
 
 import Popup from "../popup/Popup";
 
-const Table = ({ data, setShow, show }) => {
+const Table = ({ data, setShow, show, fetchEmployees }) => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [loadingRows, setLoadingRows] = useState([]);
 
@@ -28,7 +28,7 @@ const Table = ({ data, setShow, show }) => {
         prevLoadingRows.filter((loadingRow) => loadingRow !== row)
       );
 
-      window.location.reload(false);
+     fetchEmployees()
     } catch (error) {
       setLoadingRows((prevLoadingRows) =>
         prevLoadingRows.filter((loadingRow) => loadingRow !== row)
@@ -37,14 +37,23 @@ const Table = ({ data, setShow, show }) => {
     }
   };
 
-  console.log(data);
   return (
     <>
       {show === "view" && (
-        <Popup setShow={setShow} show={show} rowData={selectedRow} />
+        <Popup
+          setShow={setShow}
+          show={show}
+          rowData={selectedRow}
+          fetchEmployees={fetchEmployees}
+        />
       )}
       {show === "edit" && (
-        <Popup setShow={setShow} show={show} rowData={selectedRow} />
+        <Popup
+          setShow={setShow}
+          show={show}
+          rowData={selectedRow}
+          fetchEmployees={fetchEmployees}
+        />
       )}
       <table className="table">
         <thead>
