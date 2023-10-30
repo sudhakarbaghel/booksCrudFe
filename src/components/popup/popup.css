@@ -46,7 +46,8 @@
   color: #7d7f80;
   font-weight: 500;
 }
-.popupInputWrap input {
+.popupInputWrap input,
+.popupInputWrap textarea {
   outline-color: #d0dcf4;
   outline-width: thicker;
   padding: 8px;
@@ -54,22 +55,24 @@
   border: 2px solid #e1e1e1;
 }
 
-.popupInputWrap input:focus{
+.popupInputWrap textarea:focus,
+.popupInputWrap input:focus {
   outline-style: solid;
   outline-width: 3px;
 }
+
 .popupContent button {
   align-self: flex-start;
 }
 .popupContainer button {
   padding: 10px;
-  font-weight:bold;
+  font-weight: bold;
   cursor: pointer;
   color: white;
   border: none;
   border-radius: 5px;
 }
-.popupContainer button :disabled{
+.popupContainer button :disabled {
   cursor: not-allowed !important;
 }
 .popupBottom {

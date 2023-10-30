@@ -1,69 +1,59 @@
-import axios from "axios";
 import React, { useState } from "react";
 import "./popup.css";
-
+import callApi from "../../utills/callApi";
+const BASE_URL='https://books-crud-be.vercel.app/api/books'
 export default function Popup({ setShow, show, rowData, fetchEmployees }) {
-  const { name, email, number, nic, address } = rowData || {};
+  const { title, author, summary } = rowData || {};
   const [loading, setLoading] = useState(false);
-  const [employeeData, setEmployeeData] = useState({
-    name: name || "",
-    email: email || "",
-    number: number || "",
-    nic: nic || "",
-    address: address || "",
+  const [bookData, setBookData] = useState({
+    title: title || "",
+    author: author || "",
+    summary: summary || "",
   });
-
-  const callApi = async (method, url, data) => {
-    try {
-      const response = await axios({
-        method,
-        url,
-        data,
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error("API Error:", error);
-      throw new Error("API Error");
-    }
-  };
 
   const handleSubmit = async (event) => {
     setLoading(true);
     event.preventDefault();
     const employee = {
-      name: employeeData.name,
-      email: employeeData.email,
-      number: employeeData.number,
-      nic: employeeData.nic,
-      address: employeeData.address,
+      title: bookData.title,
+      author: bookData.author,
+      summary: bookData.summary,
     };
+
+    if (
+      isEmptyOrSpaces(employee.title) ||
+      isEmptyOrSpaces(employee.author) ||
+      isEmptyOrSpaces(employee.summary)
+    ) {
+      alert("Input fields cannot be empty or contain only spaces");
+      setLoading(false);
+      return;
+    }
+
     try {
       if (show === "edit") {
         await callApi(
           "PUT",
-          `https://employee-manager-backend-vrfr.vercel.app/api/employees/${rowData._id}`,
+          `${BASE_URL}/${rowData._id}`,
           employee
         );
       } else if (show === "add") {
-        await callApi(
-          "POST",
-          "https://employee-manager-backend-vrfr.vercel.app/api/employees",
-          employee
-        );
+        await callApi("POST", BASE_URL, employee);
       }
-      setLoading(false);
       setShow(false);
-    fetchEmployees();
+      fetchEmployees();
     } catch (error) {
-      setLoading(false);
       console.error("Submit Error:", error);
     }
+    setLoading(false);
   };
 
+  function isEmptyOrSpaces(str) {
+    return str.trim() === "";
+  }
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setEmployeeData((prevData) => ({
+    setBookData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -73,135 +63,62 @@ export default function Popup({ setShow, show, rowData, fetchEmployees }) {
     <div className="popupContainer">
       <div className="popup">
         <div className="popupHeading">
-          {show === "edit" && <span>Edit Employee</span>}
-          {show === "view" && <span>View Employee Data</span>}
-          {show === "add" && <span>Add new Employee</span>}
-          <svg
-            onClick={() => setShow(false)}
-            width="30px"
-            cursor="pointer"
-            height="30px"
-            viewBox="0 0 512 512"
-            version="1.1"
-            fill="#000000"
-          >
-            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-            <g
-              id="SVGRepo_tracerCarrier"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></g>
-            <g id="SVGRepo_iconCarrier">
-              {" "}
-              <title>cancel</title>{" "}
-              <g
-                id="Page-1"
-                stroke="none"
-                strokeWidth="1"
-                fill="none"
-                fillRule="evenodd"
-              >
-                {" "}
-                <g
-                  id="work-case"
-                  fill="#979797"
-                  transform="translate(91.520000, 91.520000)"
-                >
-                  {" "}
-                  <polygon
-                    id="Close"
-                    points="328.96 30.2933333 298.666667 1.42108547e-14 164.48 134.4 30.2933333 1.42108547e-14 1.42108547e-14 30.2933333 134.4 164.48 1.42108547e-14 298.666667 30.2933333 328.96 164.48 194.56 298.666667 328.96 328.96 298.666667 194.56 164.48"
-                  >
-                    {" "}
-                  </polygon>{" "}
-                </g>{" "}
-              </g>{" "}
-            </g>
-          </svg>
+          {show === "edit" && <span>Edit Book</span>}
+          {show === "view" && <span>View Book Data</span>}
+          {show === "add" && <span>Add new Book</span>}
+          <div onClick={() => setShow(false)}>{cancel}</div>
         </div>
         <form className="popupContent" onSubmit={handleSubmit}>
           <div className="popupInputWrap">
-            {show === "edit" && <label htmlFor="">Name</label>}
+            {show === "edit" && <label htmlFor="">Title</label>}
             <input
               type="text"
               required
-              placeholder="Enter name"
+              placeholder="Enter title"
               readOnly={show === "view"}
               style={{
                 backgroundColor: show === "view" ? "#ebeef0" : "",
                 outline: show === "view" ? "none" : "",
               }}
-              name="name"
-              value={employeeData.name}
+              name="title"
+              value={bookData.title}
               onChange={handleInputChange}
             />
           </div>
           <div className="popupInputWrap">
-            {show === "edit" && <label htmlFor="">Email</label>}
+            {show === "edit" && <label htmlFor="">Author`s name</label>}
             <input
-              type="email"
               required
-              placeholder="Enter email"
+              placeholder="Enter author's name"
               readOnly={show === "view"}
               style={{
                 backgroundColor: show === "view" ? "#ebeef0" : "",
                 outline: show === "view" ? "none" : "",
               }}
-              name="email"
-              value={employeeData.email}
+              name="author"
+              value={bookData.author}
               onChange={handleInputChange}
             />
           </div>
           <div className="popupInputWrap">
-            {show === "edit" && <label htmlFor="">Number</label>}
-            <input
-              type="tel"
-              pattern="[0-9]{10}"
+            {show === "edit" && <label htmlFor="">Summary</label>}
+            <textarea
               className="popupInputNumber"
               required
-              placeholder="Enter number"
+              placeholder="Write down the summary"
               readOnly={show === "view"}
               style={{
                 backgroundColor: show === "view" ? "#ebeef0" : "",
                 outline: show === "view" ? "none" : "",
+                resize: "vertical",
+                minHeight:70
               }}
-              name="number"
-              value={employeeData.number}
+              name="summary"
+              value={bookData.summary}
               onChange={handleInputChange}
             />
           </div>
-          <div className="popupInputWrap">
-            {show === "edit" && <label htmlFor="">NIC</label>}
-            <input
-              type="text"
-              required
-              placeholder="Enter NIC"
-              readOnly={show === "view"}
-              style={{
-                backgroundColor: show === "view" ? "#ebeef0" : "",
-                outline: show === "view" ? "none" : "",
-              }}
-              name="nic"
-              value={employeeData.nic}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="popupInputWrap">
-            {show === "edit" && <label htmlFor="">Address</label>}
-            <input
-              type="text"
-              required
-              placeholder="Enter address"
-              readOnly={show === "view"}
-              style={{
-                backgroundColor: show === "view" ? "#ebeef0" : "",
-                outline: show === "view" ? "none" : "",
-              }}
-              name="address"
-              value={employeeData.address}
-              onChange={handleInputChange}
-            />
-          </div>
+
           {show === "edit" && (
             <button
               type="submit"
@@ -209,7 +126,7 @@ export default function Popup({ setShow, show, rowData, fetchEmployees }) {
               disabled={loading}
             >
               {!loading ? (
-                "Edit Employee"
+                "Edit Book"
               ) : (
                 <div>
                   <svg
@@ -241,7 +158,7 @@ export default function Popup({ setShow, show, rowData, fetchEmployees }) {
               }
             >
               {!loading ? (
-                "Add Employee"
+                "Add Book"
               ) : (
                 <div>
                   <svg
@@ -270,3 +187,47 @@ export default function Popup({ setShow, show, rowData, fetchEmployees }) {
     </div>
   );
 }
+
+const cancel = (
+  <svg
+    width="30px"
+    cursor="pointer"
+    height="30px"
+    viewBox="0 0 512 512"
+    version="1.1"
+    fill="#000000"
+  >
+    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+    <g
+      id="SVGRepo_tracerCarrier"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    ></g>
+    <g id="SVGRepo_iconCarrier">
+      {" "}
+      <title>cancel</title>{" "}
+      <g
+        id="Page-1"
+        stroke="none"
+        strokeWidth="1"
+        fill="none"
+        fillRule="evenodd"
+      >
+        {" "}
+        <g
+          id="work-case"
+          fill="#979797"
+          transform="translate(91.520000, 91.520000)"
+        >
+          {" "}
+          <polygon
+            id="Close"
+            points="328.96 30.2933333 298.666667 1.42108547e-14 164.48 134.4 30.2933333 1.42108547e-14 1.42108547e-14 30.2933333 134.4 164.48 1.42108547e-14 298.666667 30.2933333 328.96 164.48 194.56 298.666667 328.96 328.96 298.666667 194.56 164.48"
+          >
+            {" "}
+          </polygon>{" "}
+        </g>{" "}
+      </g>{" "}
+    </g>
+  </svg>
+);

@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import "./table.css";
+import { Space, Spin } from "antd";
 
 import Popup from "../popup/Popup";
 
-const Table = ({ data, setShow, show, fetchEmployees }) => {
+const Table = ({ data, setShow, show, fetchEmployees, loading }) => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [loadingRows, setLoadingRows] = useState([]);
 
@@ -21,14 +22,12 @@ const Table = ({ data, setShow, show, fetchEmployees }) => {
   const handleDeleteClick = async (row) => {
     setLoadingRows((prevLoadingRows) => [...prevLoadingRows, row]);
     try {
-      await axios.delete(
-        `https://employee-manager-backend-vrfr.vercel.app/api/employees/${row._id}`
-      );
+      await axios.delete(`http://localhost:5000/api/books/${row._id}`);
       setLoadingRows((prevLoadingRows) =>
         prevLoadingRows.filter((loadingRow) => loadingRow !== row)
       );
 
-     fetchEmployees()
+      fetchEmployees();
     } catch (error) {
       setLoadingRows((prevLoadingRows) =>
         prevLoadingRows.filter((loadingRow) => loadingRow !== row)
@@ -55,32 +54,32 @@ const Table = ({ data, setShow, show, fetchEmployees }) => {
           fetchEmployees={fetchEmployees}
         />
       )}
+
       <table className="table">
         <thead>
           <tr>
             <th>Name</th>
-            <th>Email</th>
-            <th>Number</th>
-            <th>NIC</th>
-            <th>Address</th>
-            <th>Action</th>
+            <th>Author</th>
+            <th>Summary</th>
+            <th>Actions</th>
           </tr>
         </thead>
+
         <tbody>
-          {data.length === 0 ? (
+          <Spin size="large" spinning={loading} />
+          {data.length === 0 && !loading ? (
             <tr>
-              <td colSpan="6">No records found!</td>
+              <td>No records found!</td>
             </tr>
           ) : (
             data.map((row, index) => (
               <tr key={index}>
-                <td>{row.name}</td>
+                <td>{row.title}</td>
                 <td className="tableEmail" style={{ overflowX: "scroll" }}>
-                  {row.email}
+                  {row.author}
                 </td>
-                <td>{row.number}</td>
-                <td>{row.nic}</td>
-                <td>{row.address}</td>
+                <td>{row.summary}</td>
+
                 <td className="tableButtonWrapper">
                   <button
                     className="TableView"
