@@ -16,7 +16,7 @@ const Home = () => {
   const fetchEmployees = async () => {
     try {
       const response = await axios.get(
-        "https://brewbooks.vercel.app/api/books"
+        "https://books-crud-be.vercel.app/api/books"
       );
       setEmployees(response.data);
       setLoading(false);
