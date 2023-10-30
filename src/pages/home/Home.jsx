@@ -26,21 +26,50 @@ const Home = () => {
     }
   };
 
+  const backendRepoLink = "https://github.com/sudhakarbaghel/booksCrudBE";  
+  const frontendRepoLink = "https://github.com/sudhakarbaghel/booksCrudFE";  
+
   return (
     <div className="home">
       <h1
         style={{
           fontFamily: "'Dancing Script', cursive",
           fontWeight: "700 !important",
-          textAlign:'center'
+          textAlign: "center",
         }}
       >
         Brew Books
       </h1>
-      <button onClick={() => setShow("add")}>Add New Book</button>
-      {show === "add" && (
-        <Popup setShow={setShow} show={show} fetchEmployees={fetchEmployees} />
-      )}
+      <div>
+        <button onClick={() => setShow("add")}>Add New Book</button>
+        {show === "add" && (
+          <Popup
+            setShow={setShow}
+            show={show}
+            fetchEmployees={fetchEmployees}
+          />
+        )}
+        <div>
+          <a
+            href={backendRepoLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="github-link"
+          >
+            Backend Repo
+          </a>
+
+          <a
+            href={frontendRepoLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="github-link"
+          >
+            Frontend Repo
+          </a>
+        </div>
+      </div>
+
       <Table
         setShow={setShow}
         show={show}

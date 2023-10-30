@@ -2,7 +2,15 @@
   max-width: 1024px;
   margin: auto;
 }
-.home > button {
+.home>div{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.home>div>div a{
+  margin-right: 20px;
+}
+.home >div> button {
   margin-top: 50px;
   cursor: pointer;
   padding: 13px 8px;
