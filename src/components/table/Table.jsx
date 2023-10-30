@@ -22,7 +22,7 @@ const Table = ({ data, setShow, show, fetchEmployees, loading }) => {
   const handleDeleteClick = async (row) => {
     setLoadingRows((prevLoadingRows) => [...prevLoadingRows, row]);
     try {
-      await axios.delete(`http://localhost:5000/api/books/${row._id}`);
+      await axios.delete(`http://brewbooks.vercel.app/api/books/${row._id}`);
       setLoadingRows((prevLoadingRows) =>
         prevLoadingRows.filter((loadingRow) => loadingRow !== row)
       );
