@@ -2,7 +2,7 @@
   max-width: 1024px;
   margin: auto;
 }
-.home>div{
+.home .homeButton{
   display: flex;
   align-items: center;
   justify-content: space-between;

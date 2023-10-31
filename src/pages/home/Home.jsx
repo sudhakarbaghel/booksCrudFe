@@ -40,7 +40,7 @@ const Home = () => {
       >
         Brew Books
       </h1>
-      <div>
+      <div className="homeButton">
         <button onClick={() => setShow("add")}>Add New Book</button>
         {show === "add" && (
           <Popup
